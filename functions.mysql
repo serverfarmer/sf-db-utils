@@ -4,7 +4,7 @@ mysql_local_port() {
 
 mysql_local_user() {
 	if [ -f /etc/mysql/debian.cnf ] && [ -f /var/run/mysqld/mysqld.pid ]; then
-		echo "debian-sys-maint"
+		cat /etc/mysql/debian.cnf |grep ^user |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
 		cat /usr/local/directadmin/conf/mysql.conf |grep user= |tail -n1 |cut -d= -f2
 	fi
@@ -12,7 +12,7 @@ mysql_local_user() {
 
 mysql_local_password() {
 	if [ -f /etc/mysql/debian.cnf ] && [ -f /var/run/mysqld/mysqld.pid ]; then
-		cat /etc/mysql/debian.cnf |grep password |tail -n1 |sed s/\ //g |cut -d= -f2
+		cat /etc/mysql/debian.cnf |grep ^password |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
 		cat /usr/local/directadmin/conf/mysql.conf |grep passwd= |tail -n1 |cut -d= -f2
 	fi
