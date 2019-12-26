@@ -4,16 +4,20 @@ mysql_local_port() {
 
 mysql_local_user() {
 	if [ -f /etc/mysql/debian.cnf ] && [ -f /var/run/mysqld/mysqld.pid ]; then
-		cat /etc/mysql/debian.cnf |grep ^user |tail -n1 |sed s/\ //g |cut -d= -f2
+		grep ^user /etc/mysql/debian.cnf |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
-		cat /usr/local/directadmin/conf/mysql.conf |grep user= |tail -n1 |cut -d= -f2
+		grep user= /usr/local/directadmin/conf/mysql.conf |tail -n1 |cut -d= -f2
+	elif [ -f /root/.digitalocean_password ]; then
+		echo root
 	fi
 }
 
 mysql_local_password() {
 	if [ -f /etc/mysql/debian.cnf ] && [ -f /var/run/mysqld/mysqld.pid ]; then
-		cat /etc/mysql/debian.cnf |grep ^password |tail -n1 |sed s/\ //g |cut -d= -f2
+		grep ^password /etc/mysql/debian.cnf |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
-		cat /usr/local/directadmin/conf/mysql.conf |grep passwd= |tail -n1 |cut -d= -f2
+		grep passwd= /usr/local/directadmin/conf/mysql.conf |tail -n1 |cut -d= -f2
+	elif [ -f /root/.digitalocean_password ]; then
+		cat /root/.digitalocean_password
 	fi
 }
