@@ -7,6 +7,8 @@ mysql_local_user() {
 		grep ^user /etc/mysql/debian.cnf |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
 		grep user= /usr/local/directadmin/conf/mysql.conf |tail -n1 |cut -d= -f2
+	elif [ -f /root/.my.cnf ]; then
+		grep user= /root/.my.cnf |tail -n1 |cut -d= -f2 |tr -d '"'
 	elif [ -f /root/.digitalocean_password ]; then
 		echo root
 	fi
@@ -17,6 +19,8 @@ mysql_local_password() {
 		grep ^password /etc/mysql/debian.cnf |tail -n1 |sed s/\ //g |cut -d= -f2
 	elif [ -f /usr/local/directadmin/conf/mysql.conf ]; then
 		grep passwd= /usr/local/directadmin/conf/mysql.conf |tail -n1 |cut -d= -f2
+	elif [ -f /root/.my.cnf ]; then
+		grep password= /root/.my.cnf |tail -n1 |cut -d= -f2 |tr -d '"'
 	elif [ -f /root/.digitalocean_password ]; then
 		cat /root/.digitalocean_password
 	fi
